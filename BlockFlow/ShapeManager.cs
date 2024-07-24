@@ -193,6 +193,8 @@ namespace BlockFlow
         {
 			int squareNumber;
 			Block block = ActivateBlock(out squareNumber);
+			
+
             block.Transform.Parent = parent.Transform;
 
 			block.GridLocation = shapePosition;
@@ -257,7 +259,8 @@ namespace BlockFlow
 				return false; 
 
 			return BlockGrid[position.X, position.Y] is Block && 
-				   BlockGrid[position.X, position.Y].IsLockedIn;
+				   (BlockGrid[position.X, position.Y].CurrentBlockState == Block.BlockState.LockedIn ||
+				   BlockGrid[position.X, position.Y].CurrentBlockState == Block.BlockState.SetForRemoval);
 		}
 
 		public bool PositionIsOnGrid(Point position)
@@ -273,15 +276,15 @@ namespace BlockFlow
 		{
 			
 			block.GridLocation = location;
-			block.IsLockedIn = true;
+			//block.CurrentBlockState = Block.BlockState.Falling;
+			block.CurrentBlockState = Block.BlockState.LockedIn;
 		}
 
 		public void RemoveBlockFromLocation(Point location)
 		{
-			BlockGrid[location.X, location.Y].IsLockedIn = false;
-		
+			BlockGrid[location.X, location.Y].CurrentBlockState = Block.BlockState.Removed;
 			BlockGrid[location.X, location.Y].IsActive = false;
-			//BlockGrid[location.X, location.Y] = null;
+			BlockGrid[location.X, location.Y] = null;
 		}
 
 

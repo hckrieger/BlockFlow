@@ -88,8 +88,12 @@ namespace BlockFlow.Entities
 			{
 				var blockPosition = shapeManager.BlockPositions[blockShape][rotationState, i];
 				var entity = shapeManager.GenerateBlock(color, this, shapeLocation, blockPosition);
+				
 				Blocks[i] = entity;
+				Blocks[i].CurrentBlockState = Block.BlockState.Falling;
 			}
+
+			
 
 			ShapeLocation = shapeLocation;
 		}

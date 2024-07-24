@@ -12,6 +12,17 @@ namespace BlockFlow.Entities
 		private Point gridLocation, relativeLocation;
 		private ShapeManager shapeManager;
 		private int distanceDown = 0;
+
+        public BlockState CurrentBlockState { get; set; }
+
+        public enum BlockState
+		{
+			LockedIn,
+			SetForRemoval,
+			Falling, 
+			Removed
+		}
+
 		public Point GridLocation
 		{
 			get { return gridLocation; }
@@ -40,7 +51,6 @@ namespace BlockFlow.Entities
 			 }
 		}
 
-		public bool IsLockedIn { get; set; } = false;
 
 		public Block(ShapeManager shapeManager, Game game) : base(game)
 		{

@@ -27,22 +27,22 @@ namespace BlockFlow.Scenes
 		private Entity graphicalGridArea;
 		private Entity gridParentPosition;
 
-		private List<int> yLocationsWithFullRows = new List<int>();
 
 		private ShapeManager shapeManager;
 		private Shape activeShape;
 		private float timer = 1f;
 		private int blockBlinkingCounter = 0;
 
-		private float clearTimer = .25f;
-		private float startClearTimer = .5f;
+		private float clearTimer = .3f;
+		private float startClearTimer;
 		private float startTimer;
 
 		private int distanceToDrop = 0;
 
+		private bool hasBlocksToRemove = false;
+
 		private InputManager inputManager;
 
-		private Block[] gridRowMemory = new Block[gridWidth];
 
 		public PlayingScene(Game game) : base(game)
         {
@@ -72,7 +72,7 @@ namespace BlockFlow.Scenes
 			activeShape = new Shape(Game);
 			activeShape.SpawnNewBlock += SpawnNewShape;
 			activeShape.SpeedDownEvent += SpeedDown;
-			activeShape.HasHitLandingSpot += CheckRowsToShiftThenRespawn;
+			activeShape.HasHitLandingSpot += CheckRowMatches;
 
 			shapeManager = new ShapeManager(AddEntity, BlockGrid, activeShape, Game);
 			SpawnNewShape();
@@ -89,74 +89,77 @@ namespace BlockFlow.Scenes
 		{
 			base.Update(gameTime);
 
-		
-		//	if (yLocationsWithFullRows.Count == 0)
+
+			if (!hasBlocksToRemove)
 				timer -= (float)gameTime.ElapsedGameTime.TotalSeconds;
+			else
+				clearTimer -= (float)gameTime.ElapsedGameTime.TotalSeconds;
+
+
+			
+				
 			
 
 			if (timer <= 0f)
 			{
 				activeShape.TryMoveShape(new Point(0, 1));
 
-				//PrepareDownWardRowShift();
+				
 				
 				timer = startTimer;
 			}
 
 
-			//if (yLocationsWithFullRows.Count > 0)
-			//{
-			//	clearTimer -= (float)gameTime.ElapsedGameTime.TotalSeconds;
+			if (clearTimer <= 0)
+			{
 
-			//	if (clearTimer <= 0f)
-			//	{
-					
-			//		for (int y = 0; y < yLocationsWithFullRows.Count; y++)
-			//		{
-			//			for (int x = 0; x < gridWidth; x++)
-			//			{
-			//				BlockGrid[x, yLocationsWithFullRows[y]].Visible = !BlockGrid[x, yLocationsWithFullRows[y]].Visible;
-			//			}
-						
-			//		}
-			//		blockBlinkingCounter++;
+				for (int y = gridHeight - 1; y >= 0; y--)
+				{
+					for (int x = 0; x < gridWidth; x++)
+					{
+						if (BlockGrid[x, y] != null && BlockGrid[x, y].CurrentBlockState == Block.BlockState.SetForRemoval)
+							BlockGrid[x, y].Visible = !BlockGrid[x, y].Visible;
+					}
+				}
+				blockBlinkingCounter++;
+				clearTimer = startClearTimer;
 
-			//		if (blockBlinkingCounter < 6)
-			//			clearTimer = startClearTimer;
-			//		else
-			//		{
-			//			blockBlinkingCounter = 0;
-			//			//SpawnNewShape();
-			//			PrepareDownWardRowShift();
-			//			yLocationsWithFullRows.Clear();
+				if (blockBlinkingCounter == 4)
+				{
+					blockBlinkingCounter = 0;
+					CheckRowsToShiftThenRespawn();
+				}
 
-			//		}
-			//	} 
-			//}
+			}
+
+
 		}
 
-		//public void CheckRowMatches()
-		//{
+	
+
+		private void CheckRowMatches()
+		{
+			for (int y = gridHeight - 1; y >= 0; y--)
+			{
+				
+				if (RowCheck(y))
+				{
+					for (int x = 0; x < gridWidth; x++)
+					{
+						BlockGrid[x, y].CurrentBlockState = Block.BlockState.SetForRemoval;
+						hasBlocksToRemove = true;
+						clearTimer = .25f;
+					}
+				}
+
 			
 
-		//	for (int y = gridHeight - 1; y >= 0; y--)
-		//	{
-
-
-
-		//		if (RowCheck(y))
-		//		{
-		//			 yLocationsWithFullRows.Add(y);
-		//		}
-
+			}
 
 				
-				
-
-		//	}
-
-			
-		//}
+			if (!hasBlocksToRemove)
+				SpawnNewShape();
+		}
 
 		private bool RowCheck(int y)
 		{
@@ -164,6 +167,9 @@ namespace BlockFlow.Scenes
 			{
 				if (BlockGrid[x, y] == null)
 					return false;
+
+				
+
 			}
 
 			return true;
@@ -197,6 +203,7 @@ namespace BlockFlow.Scenes
 
 		private void SpawnNewShape()
 		{
+
 			shapeManager.GenerateShape(new Point(4, 0));
 			//timer = startTimer;	
 		}
@@ -211,16 +218,11 @@ namespace BlockFlow.Scenes
 			for (int y = gridHeight - 1; y >= 0; y--)
 			{
 
-				for (int x = 0; x < gridWidth; x++)
-				{
+			
 
-					gridRowMemory[x] = BlockGrid[x, y];
-
-
-				}
 
 				//If every space in the array has a block in it........
-				if (gridRowMemory.All(m => m != null && shapeManager.PositionHasBlock(m.GridLocation) && y > 0))
+				if (RowCheck(y))
 				{
 
 					//Then clear the row with all blocks
@@ -236,10 +238,10 @@ namespace BlockFlow.Scenes
 
 				}
 
-				Array.Clear(gridRowMemory, 0, gridWidth);
 
 				if (y == 0)
 				{
+					hasBlocksToRemove = false;
 					SpawnNewShape();
 				}
 			}
@@ -250,16 +252,12 @@ namespace BlockFlow.Scenes
 
 		public void ClearFullRow(int y)
 		{
-			for (int x = 0; x < gridRowMemory.Length; x++)
-			{
+			for (int x = 0; x < gridWidth; x++)
+				shapeManager.RemoveBlockFromLocation(new Point(x, y));
 
-				if (BlockGrid[x, y] != null && BlockGrid[x, y].GridLocation == gridRowMemory[x].GridLocation)
-				{
-					shapeManager.RemoveBlockFromLocation(new Point(x, y));
+				
 
-				}
-
-			}
+			
 		}
 
 		public void MoveBlocksDown(int y)
@@ -270,14 +268,10 @@ namespace BlockFlow.Scenes
 			{
 				for (int x = 0; x < gridWidth; x++)
 				{
-					if (BlockGrid[x, y] != null)
-					{
-						if (BlockGrid[x, y].IsLockedIn)
+					if (BlockGrid[x, y] != null && BlockGrid[x, y].CurrentBlockState != Block.BlockState.Falling)
 							BlockGrid[x, y].GridLocation += new Point(0, 1);
-
-					}
 				}
-
+				
 				y--;
 			}
 

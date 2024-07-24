@@ -26,3 +26,4 @@ C:\Users\hunte\source\repos\MonoGame\games\BlockFlow\BlockFlow\obj\Debug\net6.0\
 C:\Users\hunte\source\repos\MonoGame\games\BlockFlow\BlockFlow\obj\Debug\net6.0\BlockFlow.pdb
 C:\Users\hunte\source\repos\MonoGame\games\BlockFlow\BlockFlow\obj\Debug\net6.0\BlockFlow.genruntimeconfig.cache
 C:\Users\hunte\source\repos\MonoGame\games\BlockFlow\BlockFlow\obj\Debug\net6.0\ref\BlockFlow.dll
+C:\Users\hunte\source\repos\MonoGame\games\BlockFlow\BlockFlow\obj\Debug\net6.0\BlockFlow.sourcelink.json
