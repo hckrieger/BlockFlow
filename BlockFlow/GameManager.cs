@@ -15,18 +15,26 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Transactions;
-using static BlockFlow.ShapeManager;
+using static BlockFlow.GameManager;
 using static System.Reflection.Metadata.BlobBuilder;
 
 namespace BlockFlow
 {
-    internal class ShapeManager
+    internal class GameManager
     {
         public enum BlockShape
         {
             I, O, T, S, Z, J, L
         }
 
+		public enum GameState
+		{
+			Playing,
+			GameOver,
+			Pause
+		}
+
+		public GameState CurrentGameState;
 
         private GraphicsAssetManager graphicsAssetManager;
 
@@ -46,7 +54,11 @@ namespace BlockFlow
 		private int blockPoolQuantity = 200;
 		private Shape activeShape;
 
-		public ShapeManager(Action<Entity> addEntity, Block[,] blockGrid, Shape activeShape, Game game)
+		public event EventHandler<ShapeCheckArgs> CheckShapeToBeGenerated;
+
+		ShapeCheckArgs shapeCheckArgs = new ShapeCheckArgs();
+
+		public GameManager(Action<Entity> addEntity, Block[,] blockGrid, Shape activeShape, Game game)
         {
             this.game = game;
             graphicsAssetManager = game.Services.GetService<GraphicsAssetManager>();
@@ -141,11 +153,13 @@ namespace BlockFlow
 
 			}
 
-		
-        }
+			
+
+
+		}
 
 		
-		private void MixUpColorsPerShape()
+		public void MixUpColorsPerShape()
 		{
 			blockColors.Shuffle();
 			
@@ -184,7 +198,13 @@ namespace BlockFlow
 					break;
 			}
 
-		//	shapeType = BlockShape.I;
+
+			shapeCheckArgs.BlockShapeToSpawn = shapeType;
+			shapeCheckArgs.SpawnLocation = gridLocation;
+			
+
+			CheckShapeToBeGenerated.Invoke(this, shapeCheckArgs);
+			
 			activeShape.ReassignBlocksToShape(shapeType, gridLocation, color, this);
 		}
 
@@ -276,12 +296,14 @@ namespace BlockFlow
 		{
 			
 			block.GridLocation = location;
-			//block.CurrentBlockState = Block.BlockState.Falling;
 			block.CurrentBlockState = Block.BlockState.LockedIn;
 		}
 
 		public void RemoveBlockFromLocation(Point location)
 		{
+			if (BlockGrid[location.X, location.Y] == null)
+				return;
+			
 			BlockGrid[location.X, location.Y].CurrentBlockState = Block.BlockState.Removed;
 			BlockGrid[location.X, location.Y].IsActive = false;
 			BlockGrid[location.X, location.Y] = null;

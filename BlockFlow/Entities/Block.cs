@@ -10,7 +10,7 @@ namespace BlockFlow.Entities
 	internal class Block : Entity
 	{
 		private Point gridLocation, relativeLocation;
-		private ShapeManager shapeManager;
+		private GameManager gameManager;
 		private int distanceDown = 0;
 
         public BlockState CurrentBlockState { get; set; }
@@ -28,13 +28,12 @@ namespace BlockFlow.Entities
 			get { return gridLocation; }
 			set
 			{
-				
-				if (shapeManager.BlockGrid[gridLocation.X, gridLocation.Y] == this)
-					shapeManager.BlockGrid[gridLocation.X, gridLocation.Y] = null;
+				if (gameManager.BlockGrid[gridLocation.X, gridLocation.Y] == this)
+					gameManager.BlockGrid[gridLocation.X, gridLocation.Y] = null;
 				gridLocation = value;
 				
 				Transform.LocalPosition = new Vector2(gridLocation.X * 32, gridLocation.Y * 32);
-				shapeManager.BlockGrid[gridLocation.X, gridLocation.Y] = this;
+				gameManager.BlockGrid[gridLocation.X, gridLocation.Y] = this;
 			}
 		}
 
@@ -43,23 +42,23 @@ namespace BlockFlow.Entities
 			get { return relativeLocation; }
 			set
 			{
-				shapeManager.BlockGrid[gridLocation.X, gridLocation.Y] = null;
+				gameManager.BlockGrid[gridLocation.X, gridLocation.Y] = null;
 				relativeLocation = value;
 				gridLocation += relativeLocation;
 				Transform.LocalPosition = new Vector2(gridLocation.X * 32, gridLocation.Y * 32);
-				shapeManager.BlockGrid[gridLocation.X, gridLocation.Y] = this;
+				gameManager.BlockGrid[gridLocation.X, gridLocation.Y] = this;
 			 }
 		}
 
 
-		public Block(ShapeManager shapeManager, Game game) : base(game)
+		public Block(GameManager gameManager, Game game) : base(game)
 		{
-			this.shapeManager = shapeManager;
+			this.gameManager = gameManager;
 		}
 
 		public bool IsValidPosition(Point position)
 		{
-			return shapeManager.PositionIsOnGrid(position) && !shapeManager.PositionHasBlock(position);
+			return gameManager.PositionIsOnGrid(position) && !gameManager.PositionHasBlock(position);
 		}
 
 		public bool IsOnLandingPosition(Point position)
@@ -69,7 +68,7 @@ namespace BlockFlow.Entities
 			var bottomOfGrid = position.Y == PlayingScene.gridHeight;
 
 
-            var topOfBlock = shapeManager.PositionHasBlock(position) && position.Y - (gridLocation.Y + distanceDown) == 1;
+            var topOfBlock = gameManager.PositionHasBlock(position) && position.Y - (gridLocation.Y + distanceDown) == 1;
 			return (bottomOfGrid || topOfBlock); 
 		}
 

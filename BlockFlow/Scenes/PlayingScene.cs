@@ -1,4 +1,5 @@
 ﻿using BlockFlow.Entities;
+using EC.Components.Render;
 using EC.CoreSystem;
 using EC.Services;
 using EC.Utilities.Extensions;
@@ -11,6 +12,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Net.Security;
 using System.Runtime.CompilerServices;
+using System.Threading;
 using System.Transactions;
 
 namespace BlockFlow.Scenes
@@ -28,7 +30,7 @@ namespace BlockFlow.Scenes
 		private Entity gridParentPosition;
 
 
-		private ShapeManager shapeManager;
+		private GameManager gameManager;
 		private Shape activeShape;
 		private float timer = 1f;
 		private int blockBlinkingCounter = 0;
@@ -42,6 +44,7 @@ namespace BlockFlow.Scenes
 		private bool hasBlocksToRemove = false;
 
 		private InputManager inputManager;
+
 
 
 		public PlayingScene(Game game) : base(game)
@@ -73,8 +76,10 @@ namespace BlockFlow.Scenes
 			activeShape.SpawnNewBlock += SpawnNewShape;
 			activeShape.SpeedDownEvent += SpeedDown;
 			activeShape.HasHitLandingSpot += CheckRowMatches;
+			
 
-			shapeManager = new ShapeManager(AddEntity, BlockGrid, activeShape, Game);
+			gameManager = new GameManager(AddEntity, BlockGrid, activeShape, Game);
+			gameManager.CheckShapeToBeGenerated += CheckShapeToBeGenerated;
 			SpawnNewShape();
 			
 
@@ -89,6 +94,16 @@ namespace BlockFlow.Scenes
 		{
 			base.Update(gameTime);
 
+			if (gameManager.CurrentGameState == GameManager.GameState.GameOver)
+			{
+				if (inputManager.KeyJustPressed(Keys.Enter))
+				{
+					Reset();
+				}
+				return;
+			} 
+
+			
 
 			if (!hasBlocksToRemove)
 				timer -= (float)gameTime.ElapsedGameTime.TotalSeconds;
@@ -133,6 +148,8 @@ namespace BlockFlow.Scenes
 			}
 
 
+
+
 		}
 
 	
@@ -158,7 +175,7 @@ namespace BlockFlow.Scenes
 
 				
 			if (!hasBlocksToRemove)
-				SpawnNewShape();
+				 SpawnNewShape();
 		}
 
 		private bool RowCheck(int y)
@@ -203,13 +220,32 @@ namespace BlockFlow.Scenes
 
 		private void SpawnNewShape()
 		{
+			
+			gameManager.GenerateShape(new Point(4, 0));
 
-			shapeManager.GenerateShape(new Point(4, 0));
-			//timer = startTimer;	
+
 		}
 
 
+		//Checks if a new block is going to be generated on an area that already has a block thus ending the game
+		private void CheckShapeToBeGenerated(object sender, ShapeCheckArgs args)
+		{
+			
+			for (int i = 0; i < 4; i++)
+			{
+				Point positionToCheck = args.SpawnLocation + gameManager.BlockPositions[args.BlockShapeToSpawn][0, i];
+				if (gameManager.PositionHasBlock(positionToCheck))
+				{
+					gameManager.RemoveBlockFromLocation(positionToCheck);
+					gameManager.CurrentGameState = GameManager.GameState.GameOver;
+					
+				}
+			}
+			
+		}
 
+
+	
 
 		private void CheckRowsToShiftThenRespawn()
 		{
@@ -253,7 +289,7 @@ namespace BlockFlow.Scenes
 		public void ClearFullRow(int y)
 		{
 			for (int x = 0; x < gridWidth; x++)
-				shapeManager.RemoveBlockFromLocation(new Point(x, y));
+				gameManager.RemoveBlockFromLocation(new Point(x, y));
 
 				
 
@@ -275,6 +311,26 @@ namespace BlockFlow.Scenes
 				y--;
 			}
 
+		}
+
+		public override void Reset()
+		{
+
+
+			for (int y = 0; y < gridHeight; y++)
+			{
+				for (int x = 0; x < gridWidth; x++)
+				{
+					if (BlockGrid[x, y] != null)
+						gameManager.RemoveBlockFromLocation(new Point(x, y));
+				}
+			}
+
+			gameManager.CurrentGameState = GameManager.GameState.Playing;
+
+			gameManager.MixUpColorsPerShape();
+
+			SpawnNewShape();
 		}
 	}
 }

@@ -7,7 +7,8 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using static BlockFlow.ShapeManager;
+using System.Linq;
+using static BlockFlow.GameManager;
 
 namespace BlockFlow.Entities
 {
@@ -18,7 +19,7 @@ namespace BlockFlow.Entities
 		private List<Block> orderedBlocks;
 		public BlockShape BlockShape { get; set; }
 
-		private ShapeManager shapeManager;
+		private GameManager gameManager;
 		int rotationState = 0;
 
 		private InputManager inputManager;
@@ -46,7 +47,7 @@ namespace BlockFlow.Entities
 				shapeLocation = value;
 				for (int i = 0; i < 4; i++)
 				{
-					Blocks[i].GridLocation = shapeLocation + shapeManager.BlockPositions[BlockShape][rotationState, i];
+					Blocks[i].GridLocation = shapeLocation + gameManager.BlockPositions[BlockShape][rotationState, i];
 				}
 
 			}
@@ -78,19 +79,28 @@ namespace BlockFlow.Entities
 		}
 
 
-		public void ReassignBlocksToShape(BlockShape blockShape, Point shapeLocation, Color color, ShapeManager shapeManager)
+		public void ReassignBlocksToShape(BlockShape blockShape, Point shapeLocation, Color color, GameManager gameManager)
 		{
 			BlockShape = blockShape;
-			this.shapeManager = shapeManager;
+			this.gameManager = gameManager;
 			rotationState = 0;
 
 			for (int i = 0; i < 4; i++)
 			{
-				var blockPosition = shapeManager.BlockPositions[blockShape][rotationState, i];
-				var entity = shapeManager.GenerateBlock(color, this, shapeLocation, blockPosition);
+				var blockPosition = gameManager.BlockPositions[blockShape][rotationState, i];
 				
+
+				var entity = gameManager.GenerateBlock(color, this, shapeLocation, blockPosition);
+
+
+					
+
 				Blocks[i] = entity;
-				Blocks[i].CurrentBlockState = Block.BlockState.Falling;
+
+				if (gameManager.CurrentGameState != GameState.GameOver)
+					Blocks[i].CurrentBlockState = Block.BlockState.Falling;
+				else 
+					Blocks[i].CurrentBlockState = Block.BlockState.LockedIn;
 			}
 
 			
@@ -103,6 +113,16 @@ namespace BlockFlow.Entities
 		public override void Update(GameTime gameTime)
 		{
 			base.Update(gameTime);
+
+			if (gameManager.CurrentGameState != GameState.Playing)
+				return;
+
+			if (inputManager.KeyJustPressed(Keys.Space) &&
+			!Blocks.Any(m => m.CurrentBlockState == Block.BlockState.SetForRemoval))
+			{
+				DropWholeShape();
+
+			}
 
 			if (inputManager.KeyJustPressed(Keys.Up))
 			{
@@ -130,11 +150,9 @@ namespace BlockFlow.Entities
 			MoveToTheSides(Keys.Left, gameTime);
 			MoveToTheSides(Keys.Right, gameTime);
 
-			if (inputManager.KeyJustPressed(Keys.Space))
-			{
-				DropWholeShape();
-				
-			}
+			
+
+
 
 
 		}
@@ -235,7 +253,7 @@ namespace BlockFlow.Entities
 			for (int i = 0; i  <  4; i++)
 			{
 				
-				newPositions[i] = newShapeLocation + shapeManager.BlockPositions[BlockShape][rotationState, i];
+				newPositions[i] = newShapeLocation + gameManager.BlockPositions[BlockShape][rotationState, i];
 			}
 
 
@@ -288,7 +306,7 @@ namespace BlockFlow.Entities
 		{
 			for (int i = 0; i  <  4; i++)
 			{
-				shapeManager.RegisterBlockToLocation(Blocks[i].GridLocation, Blocks[i]);
+				gameManager.RegisterBlockToLocation(Blocks[i].GridLocation, Blocks[i]);
 			}
 			
 			HasHitLandingSpot.Invoke();
