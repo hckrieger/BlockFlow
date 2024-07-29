@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("BlockFlow")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+120464f8e318175a25502b1ef840e3b2c8d8cf2f")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+e07700119d0d31a3e58b646d31258fff48ba5de2")]
 [assembly: System.Reflection.AssemblyProductAttribute("BlockFlow")]
 [assembly: System.Reflection.AssemblyTitleAttribute("BlockFlow")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

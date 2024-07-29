@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Net.Security;
+using System.Reflection.Emit;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Transactions;
@@ -32,12 +33,12 @@ namespace BlockFlow.Scenes
 
 		private GameManager gameManager;
 		private Shape activeShape;
-		private float timer = 1f;
+		//private float timer = 1f;
 		private int blockBlinkingCounter = 0;
 
 		private float clearTimer = .3f;
 		private float startClearTimer;
-		private float startTimer;
+	//	private float startTimer;
 
 		private int distanceToDrop = 0;
 
@@ -45,6 +46,11 @@ namespace BlockFlow.Scenes
 
 		private InputManager inputManager;
 
+		private Entity scoreText, linesText, levelsText;
+		private int score, lines, levels;
+		private int linesCleared = 0;
+
+		private bool isSoftDropping = false;
 
 
 		public PlayingScene(Game game) : base(game)
@@ -73,20 +79,42 @@ namespace BlockFlow.Scenes
 			inputManager = Game.Services.GetService<InputManager>();
 
 			activeShape = new Shape(Game);
-			activeShape.SpawnNewBlock += SpawnNewShape;
-			activeShape.SpeedDownEvent += SpeedDown;
 			activeShape.HasHitLandingSpot += CheckRowMatches;
-			
+			activeShape.AddPointsFromDrop += AddToScore;
+		//	activeShape.CutOffClearTimerEvent += CutOffClearTimer;
 
 			gameManager = new GameManager(AddEntity, BlockGrid, activeShape, Game);
 			gameManager.CheckShapeToBeGenerated += CheckShapeToBeGenerated;
+			
 			SpawnNewShape();
 			
 
 			AddEntity(activeShape, gridParentPosition);
 
-			startTimer = timer;
+			//startTimer = timer;
 			startClearTimer = clearTimer;
+
+			
+
+			scoreText = new Entity(Game);
+			scoreText.LoadTextComponents("Fonts/Score", $"Score: {score}", Color.White, Game);
+
+			scoreText.Transform.LocalPosition = new Vector2(600, 100);
+			AddEntity(scoreText);
+
+			linesText = new Entity(Game);
+			linesText.LoadTextComponents("Fonts/Score", $"Lines: {lines}", Color.White, Game);
+			linesText.Transform.LocalPosition = new Vector2(600, 150);
+			AddEntity(linesText);
+
+			levelsText = new Entity(Game);
+			levelsText.LoadTextComponents("Fonts/Score", $"Level: {levels}", Color.White, Game);
+			levelsText.Transform.LocalPosition = new Vector2(600, 200);
+			AddEntity(levelsText);
+
+			Reset();
+
+			
 		}
 
 
@@ -101,32 +129,24 @@ namespace BlockFlow.Scenes
 					Reset();
 				}
 				return;
-			} 
-
-			
-
-			if (!hasBlocksToRemove)
-				timer -= (float)gameTime.ElapsedGameTime.TotalSeconds;
-			else
-				clearTimer -= (float)gameTime.ElapsedGameTime.TotalSeconds;
-
-
-			
-				
-			
-
-			if (timer <= 0f)
-			{
-				activeShape.TryMoveShape(new Point(0, 1));
-
-				
-				
-				timer = startTimer;
 			}
+
+
+			if (hasBlocksToRemove)
+			{
+
+				activeShape.HaltDropTimer = true;
+
+				
+				clearTimer -= (float)gameTime.ElapsedGameTime.TotalSeconds;
+			}
+				
+		
 
 
 			if (clearTimer <= 0)
 			{
+				
 
 				for (int y = gridHeight - 1; y >= 0; y--)
 				{
@@ -136,6 +156,7 @@ namespace BlockFlow.Scenes
 							BlockGrid[x, y].Visible = !BlockGrid[x, y].Visible;
 					}
 				}
+
 				blockBlinkingCounter++;
 				clearTimer = startClearTimer;
 
@@ -143,6 +164,8 @@ namespace BlockFlow.Scenes
 				{
 					blockBlinkingCounter = 0;
 					CheckRowsToShiftThenRespawn();
+					activeShape.HaltDropTimer = false;
+					activeShape.LandFromHardDrop = false;
 				}
 
 			}
@@ -152,10 +175,63 @@ namespace BlockFlow.Scenes
 
 		}
 
+		
+
+		private void AddToScore(int pointsToAdd, bool includeLevelMultiplication = true)
+		{
+		
+			score += (pointsToAdd * (includeLevelMultiplication ? levels+1 : 1)); 
+			scoreText.GetComponent<TextRenderer>().DynamicText = $"Score: {score}";	
+			
+		}
+
+		private void AddToLinesTotal(int linesToAdd)
+		{
+			lines += linesToAdd;
+			linesText.GetComponent<TextRenderer>().DynamicText = $"lines: {lines}";
+
+			if (linesCleared > 0)
+			{
+				switch (linesCleared)
+				{
+					case 1: AddToScore(100); break;
+					case 2: AddToScore(300); break;
+					case 3: AddToScore(500); break;
+					case 4: AddToScore(800); break;
+				}
+			}
+
+			linesCleared = 0;
+
+			var previousLevel = levels;
+			
+			if (lines > 9)
+			{
+				levels = (lines / 10);
+			} else
+			{
+				levels = 0;
+			}
+
+			float FramesPerCellToSubtract(float frames)
+			{
+				return (1f / 60) * frames;
+			}
+
+			if (levels != previousLevel)
+			{
+				activeShape.ChangeDropSpeedTimer(FramesPerCellToSubtract(2));
+			}
+
+			levelsText.GetComponent<TextRenderer>().DynamicText = $"Level: {levels}";
+		
+
+		}
 	
 
 		private void CheckRowMatches()
 		{
+			
 			for (int y = gridHeight - 1; y >= 0; y--)
 			{
 				
@@ -165,7 +241,8 @@ namespace BlockFlow.Scenes
 					{
 						BlockGrid[x, y].CurrentBlockState = Block.BlockState.SetForRemoval;
 						hasBlocksToRemove = true;
-						clearTimer = .25f;
+
+				
 					}
 				}
 
@@ -173,7 +250,16 @@ namespace BlockFlow.Scenes
 
 			}
 
+
+			if (!activeShape.LandFromHardDrop && hasBlocksToRemove)
+			{
+				clearTimer = 0;
+			} else
+			{
+				activeShape.LandFromHardDrop = false;
+			}
 				
+
 			if (!hasBlocksToRemove)
 				 SpawnNewShape();
 		}
@@ -193,28 +279,6 @@ namespace BlockFlow.Scenes
 		}
 
 
-		private void SpeedDown(object sender, SpeedDownEventArgs args)
-		{
-			if (args.SetToCutOffInitialTimer)
-			{
-				if (timer > args.Speed)
-				{
-					timer = args.Speed;
-				}
-				else
-				{
-					timer = 0;
-					Debug.WriteLine("hit");
-				}
-					
-
-				args.SetToCutOffInitialTimer = false;
-			}
-
-			
-			startTimer = args.Speed;
-
-		}
 
 
 
@@ -250,17 +314,16 @@ namespace BlockFlow.Scenes
 		private void CheckRowsToShiftThenRespawn()
 		{
 
-
+			
 			for (int y = gridHeight - 1; y >= 0; y--)
 			{
 
-			
 
 
 				//If every space in the array has a block in it........
 				if (RowCheck(y))
 				{
-
+					linesCleared++;
 					//Then clear the row with all blocks
 					ClearFullRow(y);
 
@@ -277,6 +340,7 @@ namespace BlockFlow.Scenes
 
 				if (y == 0)
 				{
+					AddToLinesTotal(linesCleared);	
 					hasBlocksToRemove = false;
 					SpawnNewShape();
 				}
@@ -330,7 +394,18 @@ namespace BlockFlow.Scenes
 
 			gameManager.MixUpColorsPerShape();
 
+
+			AddToScore(-score, false);
+			AddToLinesTotal(-lines);
+			
+
+			score = lines = 0;
+
+			activeShape.Reset();
+
 			SpawnNewShape();
+
+
 		}
 	}
 }

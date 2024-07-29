@@ -5,9 +5,12 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.ComponentModel.Design;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using static BlockFlow.GameManager;
 
 namespace BlockFlow.Entities
@@ -26,18 +29,20 @@ namespace BlockFlow.Entities
 
 		private Point shapeLocation;
 
-		public event Action SpawnNewBlock;
 
-		public event EventHandler<SpeedDownEventArgs> SpeedDownEvent;
 
 		public event Action HasHitLandingSpot;
 
-		private SpeedDownEventArgs speedDownEventArgs;
 
-		private float timer, heldTimer, startTimer;
+		public event Action<int, bool> AddPointsFromDrop;
 
-		bool notYetPressed = true;
+		public bool LandFromHardDrop { get; set; } = false;
 
+        private float sideMoveTimer, heldTimer, startSideMoveTimer;
+
+		private float moveDownTimer, speedDownTimer, startMoveDownTimer;
+
+        public bool HaltDropTimer { get; set; }
 
 
         public Point ShapeLocation { 
@@ -58,24 +63,47 @@ namespace BlockFlow.Entities
 
         public Shape(Game game) : base(game)
         {
-			
-			
-			
+
+
 			inputManager = game.Services.GetService<InputManager>();
 
 			Blocks = new Block[4];
 			orderedBlocks = new List<Block>();
 
 
-			speedDownEventArgs = new SpeedDownEventArgs();
 
 			proposedPositionalChange = new Point[4];
 
-			startTimer = .25f;
+			startSideMoveTimer = .25f;
 			heldTimer = .1f;
 
-			timer = startTimer;
+			sideMoveTimer = startSideMoveTimer;
 
+		}
+
+		public override void Initialize()
+		{
+			base.Initialize();
+
+			Reset();
+			
+		}
+
+		public void ChangeDropSpeedTimer(float decrement)
+		{
+			// Define the lowest allowed pixels per frame
+			float lowestPixelsPerFrame = 10f / 60;
+
+			// Decrease the startMoveDownTimer by the decrement
+			startMoveDownTimer -= decrement;
+
+			// Cap the timer to the lowest allowed pixels per frame
+			if (startMoveDownTimer < lowestPixelsPerFrame)
+			{
+				startMoveDownTimer = lowestPixelsPerFrame;
+			}
+
+			Debug.WriteLine(startMoveDownTimer);
 		}
 
 
@@ -103,7 +131,6 @@ namespace BlockFlow.Entities
 					Blocks[i].CurrentBlockState = Block.BlockState.LockedIn;
 			}
 
-			
 
 			ShapeLocation = shapeLocation;
 		}
@@ -114,48 +141,63 @@ namespace BlockFlow.Entities
 		{
 			base.Update(gameTime);
 
+
+
+
 			if (gameManager.CurrentGameState != GameState.Playing)
+			{
 				return;
+			}
 
 			if (inputManager.KeyJustPressed(Keys.Space) &&
-			!Blocks.Any(m => m.CurrentBlockState == Block.BlockState.SetForRemoval))
+				!Blocks.Any(m => m.CurrentBlockState == Block.BlockState.SetForRemoval))
 			{
 				DropWholeShape();
 
 			}
+
+			MoveToTheSides(Keys.Left, gameTime);
+			MoveToTheSides(Keys.Right, gameTime);
+
+			if (inputManager.KeyJustPressed(Keys.Down))
+			{
+				moveDownTimer = 0;
+			}
+
+			if (!HaltDropTimer)
+				moveDownTimer -= (float)gameTime.ElapsedGameTime.TotalSeconds;
+			
+		
+				
+			
+
+			if (moveDownTimer <= 0f)
+			{
+				TryMoveShape(new Point(0, 1));
+
+
+				if (inputManager.KeyHeld(Keys.Down) && !HaltDropTimer)
+				{
+					moveDownTimer = speedDownTimer;
+					AddPointsFromDrop.Invoke(1, true);
+				}
+				else
+					moveDownTimer = startMoveDownTimer;
+
+
+			}
+
+
+
 
 			if (inputManager.KeyJustPressed(Keys.Up))
 			{
 				TryRotateShape();
 			}
 
-
-
-			// SpeedDownEvent.Invoke(this, new SpeedDownEventArgs { ButtonHeldToSpeedDown = inputManager.KeyHeld(Keys.Down) });
-
-			if (inputManager.KeyHeld(Keys.Down))
-			{
-				if (inputManager.KeyJustPressed(Keys.Down))
-					speedDownEventArgs.SetToCutOffInitialTimer = true;
-
-				speedDownEventArgs.ButtonHeldToSpeedDown = true;
-				SpeedDownEvent(this, speedDownEventArgs);
-			} else if (inputManager.KeyUpCurrently(Keys.Down))
-			{
-				speedDownEventArgs.ButtonHeldToSpeedDown = false;
-				SpeedDownEvent(this, speedDownEventArgs);
-			}
-
-
-			MoveToTheSides(Keys.Left, gameTime);
-			MoveToTheSides(Keys.Right, gameTime);
-
-			
-
-
-
-
 		}
+
+
 
 		public void TryMoveShape(Point direction)
 		{
@@ -169,6 +211,7 @@ namespace BlockFlow.Entities
 			{
 				
 				LockInBlocks();
+
 
 				
 			}
@@ -187,17 +230,17 @@ namespace BlockFlow.Entities
 				{
 
 					TryMoveShape(direction);
-					timer = startTimer;
+					sideMoveTimer = startSideMoveTimer;
 				}
 
 
-				timer -= (float)gameTime.ElapsedGameTime.TotalSeconds;
+				sideMoveTimer -= (float)gameTime.ElapsedGameTime.TotalSeconds;
 
-				if (timer < 0)
+				if (sideMoveTimer < 0)
 				{
 					TryMoveShape(direction);
 
-					timer = heldTimer;
+					sideMoveTimer = heldTimer;
 				}
 
 
@@ -281,7 +324,7 @@ namespace BlockFlow.Entities
 		{
 			for (int i = 0; i < 4; i++)
 			{
-				if (Blocks[i].IsOnLandingPosition(newPositions[i]))
+				 if (Blocks[i].IsOnLandingPosition(newPositions[i]))
 					return true;
 			}
 
@@ -296,9 +339,9 @@ namespace BlockFlow.Entities
 				if (block.DistanceToLandingPosition() < shortestDistance)
 					 shortestDistance = block.DistanceToLandingPosition();
 			}
-
+			LandFromHardDrop = true;
 			ShapeLocation += new Point(0, shortestDistance);
-
+			AddPointsFromDrop.Invoke(shortestDistance * 2, true);
 			LockInBlocks();
 		}
 
@@ -311,6 +354,17 @@ namespace BlockFlow.Entities
 			
 			HasHitLandingSpot.Invoke();
 		}
+
+		public override void Reset()
+		{
+			base.Reset();
+
+			moveDownTimer = .8f;
+			startMoveDownTimer = moveDownTimer;
+			speedDownTimer = .1f;
+		}
+
+
 
 	}
 

@@ -1,2 +1,3 @@
 Source File,Dest File,Processor Type,Content Type,Source File Size,Dest File Size,Build Seconds
+"C:/Users/hunte/source/repos/MonoGame/games/BlockFlow/BlockFlow/Content/Fonts/Score.spritefont","C:/Users/hunte/source/repos/MonoGame/games/BlockFlow/BlockFlow/Content/bin/DesktopGL/Fonts/Score.xnb","FontDescriptionProcessor","SpriteFontContent",2008,21521,0.3061505
 "C:/Users/hunte/source/repos/MonoGame/games/BlockFlow/BlockFlow/Content/Sprites/blocks.png","C:/Users/hunte/source/repos/MonoGame/games/BlockFlow/BlockFlow/Content/bin/DesktopGL/Sprites/blocks.xnb","TextureProcessor","Texture2DContent",233,28757,0.1686797

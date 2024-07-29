@@ -1,8 +1,9 @@
-C:\Users\hunte\source\repos\MonoGame\games\BlockFlow\BlockFlow\bin\Debug\net6.0\BlockFlow.dll
+C:\Users\hunte\source\repos\MonoGame\games\BlockFlow\BlockFlow\bin\Debug\net6.0\Content\Fonts\Score.xnb
 C:\Users\hunte\source\repos\MonoGame\games\BlockFlow\BlockFlow\bin\Debug\net6.0\Content\Sprites\blocks.xnb
 C:\Users\hunte\source\repos\MonoGame\games\BlockFlow\BlockFlow\bin\Debug\net6.0\BlockFlow.exe
 C:\Users\hunte\source\repos\MonoGame\games\BlockFlow\BlockFlow\bin\Debug\net6.0\BlockFlow.deps.json
 C:\Users\hunte\source\repos\MonoGame\games\BlockFlow\BlockFlow\bin\Debug\net6.0\BlockFlow.runtimeconfig.json
+C:\Users\hunte\source\repos\MonoGame\games\BlockFlow\BlockFlow\bin\Debug\net6.0\BlockFlow.dll
 C:\Users\hunte\source\repos\MonoGame\games\BlockFlow\BlockFlow\bin\Debug\net6.0\BlockFlow.pdb
 C:\Users\hunte\source\repos\MonoGame\games\BlockFlow\BlockFlow\bin\Debug\net6.0\MonoGame.Framework.dll
 C:\Users\hunte\source\repos\MonoGame\games\BlockFlow\BlockFlow\bin\Debug\net6.0\runtimes\linux-x64\native\libSDL2-2.0.so.0
@@ -20,10 +21,10 @@ C:\Users\hunte\source\repos\MonoGame\games\BlockFlow\BlockFlow\obj\Debug\net6.0\
 C:\Users\hunte\source\repos\MonoGame\games\BlockFlow\BlockFlow\obj\Debug\net6.0\BlockFlow.AssemblyInfoInputs.cache
 C:\Users\hunte\source\repos\MonoGame\games\BlockFlow\BlockFlow\obj\Debug\net6.0\BlockFlow.AssemblyInfo.cs
 C:\Users\hunte\source\repos\MonoGame\games\BlockFlow\BlockFlow\obj\Debug\net6.0\BlockFlow.csproj.CoreCompileInputs.cache
+C:\Users\hunte\source\repos\MonoGame\games\BlockFlow\BlockFlow\obj\Debug\net6.0\BlockFlow.sourcelink.json
 C:\Users\hunte\source\repos\MonoGame\games\BlockFlow\BlockFlow\obj\Debug\net6.0\BlockFlow.csproj.Up2Date
 C:\Users\hunte\source\repos\MonoGame\games\BlockFlow\BlockFlow\obj\Debug\net6.0\BlockFlow.dll
 C:\Users\hunte\source\repos\MonoGame\games\BlockFlow\BlockFlow\obj\Debug\net6.0\refint\BlockFlow.dll
 C:\Users\hunte\source\repos\MonoGame\games\BlockFlow\BlockFlow\obj\Debug\net6.0\BlockFlow.pdb
 C:\Users\hunte\source\repos\MonoGame\games\BlockFlow\BlockFlow\obj\Debug\net6.0\BlockFlow.genruntimeconfig.cache
 C:\Users\hunte\source\repos\MonoGame\games\BlockFlow\BlockFlow\obj\Debug\net6.0\ref\BlockFlow.dll
-C:\Users\hunte\source\repos\MonoGame\games\BlockFlow\BlockFlow\obj\Debug\net6.0\BlockFlow.sourcelink.json

@@ -4,9 +4,11 @@
   <Platform>DesktopGL</Platform>
   <Config />
   <SourceFiles>
+    <File>C:/Users/hunte/source/repos/MonoGame/games/BlockFlow/BlockFlow/Content/Fonts/Score.spritefont</File>
     <File>C:/Users/hunte/source/repos/MonoGame/games/BlockFlow/BlockFlow/Content/Sprites/blocks.png</File>
   </SourceFiles>
   <DestFiles>
+    <File xsi:nil="true" />
     <File xsi:nil="true" />
   </DestFiles>
 </SourceFileCollection>
