@@ -11,14 +11,18 @@
       "RelativeMoniker": "D:0:0:{0D016992-0119-4920-A553-351536B3BB3A}|BlockFlow\\BlockFlow.csproj|solutionrelative:blockflow\\scenes\\playingscene.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{67FC6949-199B-47ED-9F87-0E5FE0E78ED8}|..\\..\\libraries\\EC\\EC.csproj|c:\\users\\hunte\\source\\repos\\monogame\\libraries\\ec\\coresystem\\scene.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{0D016992-0119-4920-A553-351536B3BB3A}|BlockFlow\\BlockFlow.csproj|c:\\users\\hunte\\source\\repos\\monogame\\games\\blockflow\\blockflow\\entities\\block.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{0D016992-0119-4920-A553-351536B3BB3A}|BlockFlow\\BlockFlow.csproj|solutionrelative:blockflow\\entities\\block.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{0D016992-0119-4920-A553-351536B3BB3A}|BlockFlow\\BlockFlow.csproj|c:\\users\\hunte\\source\\repos\\monogame\\games\\blockflow\\blockflow\\game1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0D016992-0119-4920-A553-351536B3BB3A}|BlockFlow\\BlockFlow.csproj|solutionrelative:blockflow\\game1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{67FC6949-199B-47ED-9F87-0E5FE0E78ED8}|..\\..\\libraries\\EC\\EC.csproj|c:\\users\\hunte\\source\\repos\\monogame\\libraries\\ec\\coresystem\\component.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{67FC6949-199B-47ED-9F87-0E5FE0E78ED8}|..\\..\\libraries\\EC\\EC.csproj|c:\\users\\hunte\\source\\repos\\monogame\\libraries\\ec\\coresystem\\scene.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{0D016992-0119-4920-A553-351536B3BB3A}|BlockFlow\\BlockFlow.csproj|c:\\users\\hunte\\source\\repos\\monogame\\games\\blockflow\\blockflow\\shapecheckargs.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -76,13 +80,13 @@
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 2,
               "Title": "Block.cs",
               "DocumentMoniker": "C:\\Users\\hunte\\source\\repos\\MonoGame\\games\\BlockFlow\\BlockFlow\\Entities\\Block.cs",
               "RelativeDocumentMoniker": "BlockFlow\\Entities\\Block.cs",
               "ToolTip": "C:\\Users\\hunte\\source\\repos\\MonoGame\\games\\BlockFlow\\BlockFlow\\Entities\\Block.cs",
               "RelativeToolTip": "BlockFlow\\Entities\\Block.cs",
-              "ViewState": "AQIAACwAAAAAAAAAAAAAwEoAAAAAAAAA",
+              "ViewState": "AQIAACMAAAAAAAAAAAAwwEoAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-07-24T15:33:15.549Z",
               "IsPinned": true,
@@ -90,7 +94,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 5,
               "Title": "Scene.cs",
               "DocumentMoniker": "C:\\Users\\hunte\\source\\repos\\MonoGame\\libraries\\EC\\CoreSystem\\Scene.cs",
               "RelativeDocumentMoniker": "..\\..\\libraries\\EC\\CoreSystem\\Scene.cs",
@@ -110,10 +114,23 @@
               "RelativeDocumentMoniker": "BlockFlow\\Entities\\Shape.cs",
               "ToolTip": "C:\\Users\\hunte\\source\\repos\\MonoGame\\games\\BlockFlow\\BlockFlow\\Entities\\Shape.cs",
               "RelativeToolTip": "BlockFlow\\Entities\\Shape.cs",
-              "ViewState": "AQIAAFYBAAAAAAAAAAAqwLIAAAAmAAAA",
+              "ViewState": "AQIAAJoAAAAAAAAAAAAmwKkAAAAnAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-07-24T15:33:14.957Z",
               "IsPinned": true,
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Game1.cs",
+              "DocumentMoniker": "C:\\Users\\hunte\\source\\repos\\MonoGame\\games\\BlockFlow\\BlockFlow\\Game1.cs",
+              "RelativeDocumentMoniker": "BlockFlow\\Game1.cs",
+              "ToolTip": "C:\\Users\\hunte\\source\\repos\\MonoGame\\games\\BlockFlow\\BlockFlow\\Game1.cs",
+              "RelativeToolTip": "BlockFlow\\Game1.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-07-29T02:34:51.456Z",
               "EditorCaption": ""
             },
             {
@@ -137,14 +154,14 @@
               "RelativeDocumentMoniker": "BlockFlow\\Scenes\\PlayingScene.cs",
               "ToolTip": "C:\\Users\\hunte\\source\\repos\\MonoGame\\games\\BlockFlow\\BlockFlow\\Scenes\\PlayingScene.cs",
               "RelativeToolTip": "BlockFlow\\Scenes\\PlayingScene.cs",
-              "ViewState": "AQIAAIEAAAAAAAAAAAAqwNkAAAALAAAA",
+              "ViewState": "AQIAALAAAAAAAAAAAAAQwK4AAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-07-24T15:31:44.475Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 10,
               "Title": "TextureRenderer.cs",
               "DocumentMoniker": "C:\\Users\\hunte\\source\\repos\\MonoGame\\libraries\\EC\\Components\\Render\\TextureRenderer.cs",
               "RelativeDocumentMoniker": "..\\..\\libraries\\EC\\Components\\Render\\TextureRenderer.cs",
@@ -152,12 +169,11 @@
               "RelativeToolTip": "..\\..\\libraries\\EC\\Components\\Render\\TextureRenderer.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-07-25T14:30:10.799Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-07-25T14:30:10.799Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 11,
               "Title": "Entity.cs",
               "DocumentMoniker": "C:\\Users\\hunte\\source\\repos\\MonoGame\\libraries\\EC\\CoreSystem\\Entity.cs",
               "RelativeDocumentMoniker": "..\\..\\libraries\\EC\\CoreSystem\\Entity.cs",
@@ -165,12 +181,11 @@
               "RelativeToolTip": "..\\..\\libraries\\EC\\CoreSystem\\Entity.cs",
               "ViewState": "AQIAADcAAAAAAAAAAAAYwNQAAAAbAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-07-25T01:40:36.168Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-07-25T01:40:36.168Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 9,
               "Title": "RectangleRenderer.cs",
               "DocumentMoniker": "C:\\Users\\hunte\\source\\repos\\MonoGame\\libraries\\EC\\Components\\Render\\RectangleRenderer.cs",
               "RelativeDocumentMoniker": "..\\..\\libraries\\EC\\Components\\Render\\RectangleRenderer.cs",
@@ -178,12 +193,11 @@
               "RelativeToolTip": "..\\..\\libraries\\EC\\Components\\Render\\RectangleRenderer.cs",
               "ViewState": "AQIAAAMAAAAAAAAAAAAAAAAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-07-25T01:40:31.697Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-07-25T01:40:31.697Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 8,
               "Title": "Renderer.cs",
               "DocumentMoniker": "C:\\Users\\hunte\\source\\repos\\MonoGame\\libraries\\EC\\Components\\Render\\Renderer.cs",
               "RelativeDocumentMoniker": "..\\..\\libraries\\EC\\Components\\Render\\Renderer.cs",
@@ -191,12 +205,11 @@
               "RelativeToolTip": "..\\..\\libraries\\EC\\Components\\Render\\Renderer.cs",
               "ViewState": "AQIAAC8AAAAAAAAAAAAIwFMAAAAfAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-07-25T01:40:30.73Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-07-25T01:40:30.73Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 7,
               "Title": "SpriteRenderer.cs",
               "DocumentMoniker": "C:\\Users\\hunte\\source\\repos\\MonoGame\\libraries\\EC\\Components\\Render\\SpriteRenderer.cs",
               "RelativeDocumentMoniker": "..\\..\\libraries\\EC\\Components\\Render\\SpriteRenderer.cs",
@@ -204,12 +217,11 @@
               "RelativeToolTip": "..\\..\\libraries\\EC\\Components\\Render\\SpriteRenderer.cs",
               "ViewState": "AQIAAAwAAAAAAAAAAAAAAAAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-07-25T01:40:29.696Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-07-25T01:40:29.696Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 6,
               "Title": "ShapeCheckArgs.cs",
               "DocumentMoniker": "C:\\Users\\hunte\\source\\repos\\MonoGame\\games\\BlockFlow\\BlockFlow\\ShapeCheckArgs.cs",
               "RelativeDocumentMoniker": "BlockFlow\\ShapeCheckArgs.cs",
@@ -217,12 +229,11 @@
               "RelativeToolTip": "BlockFlow\\ShapeCheckArgs.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAA0AAAAxAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-07-24T15:40:18.828Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-07-24T15:40:18.828Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 14,
+              "DocumentIndex": 15,
               "Title": "TextRenderer.cs",
               "DocumentMoniker": "C:\\Users\\hunte\\source\\repos\\MonoGame\\libraries\\EC\\Components\\Render\\TextRenderer.cs",
               "RelativeDocumentMoniker": "..\\..\\libraries\\EC\\Components\\Render\\TextRenderer.cs",
@@ -234,7 +245,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 13,
               "Title": "GraphicsAssetManager.cs",
               "DocumentMoniker": "C:\\Users\\hunte\\source\\repos\\MonoGame\\libraries\\EC\\Services\\AssetManagers\\GraphicsAssetManager.cs",
               "RelativeDocumentMoniker": "..\\..\\libraries\\EC\\Services\\AssetManagers\\GraphicsAssetManager.cs",
@@ -242,12 +253,11 @@
               "RelativeToolTip": "..\\..\\libraries\\EC\\Services\\AssetManagers\\GraphicsAssetManager.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-07-26T22:47:19.729Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-07-26T22:47:19.729Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
+              "DocumentIndex": 14,
               "Title": "EntityExtensions.cs",
               "DocumentMoniker": "C:\\Users\\hunte\\source\\repos\\MonoGame\\libraries\\EC\\Utilities\\Extensions\\EntityExtensions.cs",
               "RelativeDocumentMoniker": "..\\..\\libraries\\EC\\Utilities\\Extensions\\EntityExtensions.cs",
@@ -255,12 +265,11 @@
               "RelativeToolTip": "..\\..\\libraries\\EC\\Utilities\\Extensions\\EntityExtensions.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAIgAAABuAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-07-26T21:03:00.328Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-07-26T21:03:00.328Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 12,
               "Title": "GameManager.cs",
               "DocumentMoniker": "C:\\Users\\hunte\\source\\repos\\MonoGame\\games\\BlockFlow\\BlockFlow\\GameManager.cs",
               "RelativeDocumentMoniker": "BlockFlow\\GameManager.cs",
@@ -268,12 +277,11 @@
               "RelativeToolTip": "BlockFlow\\GameManager.cs",
               "ViewState": "AQIAABsAAAAAAAAAAAAAANAAAAACAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-07-24T15:33:13.903Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-07-24T15:33:13.903Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 16,
+              "DocumentIndex": 17,
               "Title": "CollisionManager.cs",
               "DocumentMoniker": "C:\\Users\\hunte\\source\\repos\\MonoGame\\libraries\\EC\\Services\\CollisionManager.cs",
               "RelativeDocumentMoniker": "..\\..\\libraries\\EC\\Services\\CollisionManager.cs",
@@ -285,7 +293,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 15,
+              "DocumentIndex": 16,
               "Title": "DisplayManager.cs",
               "DocumentMoniker": "C:\\Users\\hunte\\source\\repos\\MonoGame\\libraries\\EC\\Services\\DisplayManager.cs",
               "RelativeDocumentMoniker": "..\\..\\libraries\\EC\\Services\\DisplayManager.cs",
@@ -297,7 +305,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 18,
+              "DocumentIndex": 19,
               "Title": "InputManager.cs",
               "DocumentMoniker": "C:\\Users\\hunte\\source\\repos\\MonoGame\\libraries\\EC\\Services\\InputManager.cs",
               "RelativeDocumentMoniker": "..\\..\\libraries\\EC\\Services\\InputManager.cs",
@@ -309,7 +317,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 17,
+              "DocumentIndex": 18,
               "Title": "IService.cs",
               "DocumentMoniker": "C:\\Users\\hunte\\source\\repos\\MonoGame\\libraries\\EC\\Services\\IService.cs",
               "RelativeDocumentMoniker": "..\\..\\libraries\\EC\\Services\\IService.cs",

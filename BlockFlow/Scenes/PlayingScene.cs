@@ -36,7 +36,7 @@ namespace BlockFlow.Scenes
 		//private float timer = 1f;
 		private int blockBlinkingCounter = 0;
 
-		private float clearTimer = .3f;
+		private float clearTimer = .275f;
 		private float startClearTimer;
 	//	private float startTimer;
 
@@ -165,7 +165,7 @@ namespace BlockFlow.Scenes
 					blockBlinkingCounter = 0;
 					CheckRowsToShiftThenRespawn();
 					activeShape.HaltDropTimer = false;
-					activeShape.LandFromHardDrop = false;
+					//activeShape.LandFromHardDrop = false;
 				}
 
 			}
@@ -188,7 +188,7 @@ namespace BlockFlow.Scenes
 		private void AddToLinesTotal(int linesToAdd)
 		{
 			lines += linesToAdd;
-			linesText.GetComponent<TextRenderer>().DynamicText = $"lines: {lines}";
+			linesText.GetComponent<TextRenderer>().DynamicText = $"Lines: {lines}";
 
 			if (linesCleared > 0)
 			{

@@ -133,6 +133,8 @@ namespace BlockFlow.Entities
 
 
 			ShapeLocation = shapeLocation;
+
+			//moveDownTimer = 0;
 		}
 
 
@@ -163,6 +165,22 @@ namespace BlockFlow.Entities
 			{
 				moveDownTimer = 0;
 			}
+			else if (HaltDropTimer && inputManager.KeyUpCurrently(Keys.Down))
+			{
+				moveDownTimer = startMoveDownTimer;
+			}
+
+
+		
+			//if (HaltDropTimer)
+			//{
+			//	if (inputManager.KeyHeld(Keys.Down) && !HaltDropTimer)
+			//	{
+			//		moveDownTimer = 0;
+			//	}
+			//}
+
+
 
 			if (!HaltDropTimer)
 				moveDownTimer -= (float)gameTime.ElapsedGameTime.TotalSeconds;
@@ -171,12 +189,13 @@ namespace BlockFlow.Entities
 				
 			
 
-			if (moveDownTimer <= 0f)
+			if (moveDownTimer <= 0f && !HaltDropTimer)
 			{
-				TryMoveShape(new Point(0, 1));
+			
+					TryMoveShape(new Point(0, 1));
 
-
-				if (inputManager.KeyHeld(Keys.Down) && !HaltDropTimer)
+				
+				if (inputManager.KeyHeld(Keys.Down))
 				{
 					moveDownTimer = speedDownTimer;
 					AddPointsFromDrop.Invoke(1, true);
